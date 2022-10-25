@@ -31,7 +31,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.get("/", (request, response, next) => {
-  response.json({ message: "Hey isaac sassi esse é o servidor do seu app" });
+  response.json({ message: "Hey isaac sassi esse é o servidor do seu app!" });
   next();
 });
 
