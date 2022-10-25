@@ -31,7 +31,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.get("/", (request, response, next) => {
-  response.json({ message: "Hey! This is your server response!" });
+  response.json({ message: "Hey isaac sassi esse é seu servidor" });
   next();
 });
 
@@ -54,11 +54,12 @@ app.post("/register", (request, response) => {
         .then((result) => {
           response.status(201).send({
             message: "User Created Successfully",
-            result,
+            result: result.email,
           });
         })
         // catch erroe if the new user wasn't added successfully to the database
         .catch((error) => {
+          console.log(error)
           response.status(500).send({
             message: "Error creating user",
             error,
