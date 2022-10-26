@@ -49,6 +49,11 @@ app.get("/something", (request, response, next) => {
   next();
 });
 
+app.get("/arara", (request, response, next) => {
+  response.json({ message: "something arara!" });
+  next();
+});
+
 
 // register endpoint
 app.post("/register", (request, response) => {
