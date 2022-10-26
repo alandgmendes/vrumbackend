@@ -40,6 +40,7 @@ app.get("/user/:email", (request, response, next) => {
     response.status(400).send({
       message: "User not found, check spelling",
       error: e,
+      email: "request.params.email"
     });
   })
 });
