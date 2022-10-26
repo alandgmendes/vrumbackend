@@ -50,7 +50,7 @@ app.get("/something", (request, response, next) => {
 });
 
 app.get("/arara", (request, response, next) => {
-  response.json({ message: "something arara!" });
+  response.json({ message: "something arara com string connection nova!" });
   next();
 });
 
