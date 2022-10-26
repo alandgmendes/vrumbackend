@@ -30,15 +30,19 @@ app.use((req, res, next) => {
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.get("/", (request, response, next) => {
-  response.json({ message: "Hey isaac sassi esse é o servidor do seu app!" });
-  next();
+app.get("/user/:email", (request, response, next) => {
+  User.findOne({ email: request.params.email }).then((user) =>{
+      response.json({id: `${user.email}`});
+      next();
+    }
+  )
 });
 
 app.get("/something", (request, response, next) => {
   response.json({ message: "something something!" });
   next();
 });
+
 
 // register endpoint
 app.post("/register", (request, response) => {
