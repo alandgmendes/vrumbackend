@@ -7,7 +7,7 @@ async function dbConnect() {
   //change line below to hide connection string on production
   mongoose
     .connect(
-        "DB_URL=mongodb+srv://AdminProjIsaac:Pass1234@projisaacv1.mvtrtak.mongodb.net/?retryWrites=true&w=majority",
+        "mongodb+srv://AdminProjIsaac:Pass1234@projisaacv1.mvtrtak.mongodb.net/?retryWrites=true&w=majority",
       {
         //   these are options to ensure that the connection is done properly
         useNewUrlParser: true,

@@ -51,7 +51,7 @@ app.get("/something", (request, response, next) => {
 });
 
 app.get("/arara", (request, response, next) => {
-  response.json({ message: "something arara com string connection nova!" });
+  response.json({ message: "segunda mudança na string connection!" });
   next();
 });
 
