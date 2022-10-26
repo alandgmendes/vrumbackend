@@ -4,9 +4,10 @@ require('dotenv').config()
 
 async function dbConnect() {
   // use mongoose to connect this app to our database on mongoDB using the DB_URL (connection string)
+  //change line below to hide connection string on production
   mongoose
     .connect(
-        process.env.DB_URL,
+        "DB_URL=mongodb+srv://AdminProjIsaac:Pass1234@projisaacv1.mvtrtak.mongodb.net/?retryWrites=true&w=majority",
       {
         //   these are options to ensure that the connection is done properly
         useNewUrlParser: true,
