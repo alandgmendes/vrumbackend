@@ -35,6 +35,11 @@ app.get("/", (request, response, next) => {
   next();
 });
 
+app.get("/something", (request, response, next) => {
+  response.json({ message: "something something!" });
+  next();
+});
+
 // register endpoint
 app.post("/register", (request, response) => {
   // hash the password
