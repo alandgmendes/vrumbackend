@@ -39,16 +39,11 @@ app.get("/user/:email", (request, response, next) => {
     console.log(e)
     response.status(400).send({
       message: "User not found, check spelling",
-      error: e,
-      email: "request.params.email"
+      error: e
     });
   })
 });
 
-app.get("/something", (request, response, next) => {
-  response.json({ message: "something something!" });
-  next();
-});
 
 app.get("/arara", (request, response, next) => {
   response.json({ message: "segunda mudança na string connection!" });
@@ -100,7 +95,7 @@ app.post("/register", (request, response) => {
 app.post("/login", (request, response) => {
   // check if email exists
   User.findOne({ email: request.body.email })
-
+  
     // if email exists
     .then((user) => {
       // compare the password entered and the hashed password found
@@ -159,7 +154,7 @@ app.get("/free-endpoint", (request, response) => {
 
 // authentication endpoint
 app.get("/auth-endpoint", auth, (request, response) => {
-  response.send({ message: "You are authorized to access me" });
+  response.send({ message: "Meu nome eh arara" });
 });
 
 module.exports = app;
