@@ -1,4 +1,3 @@
-// external imports
 const mongoose = require("mongoose");
 require('dotenv').config()
 
@@ -7,7 +6,7 @@ async function dbConnect() {
   //change line below to hide connection string on production
   mongoose
     .connect(
-        "mongodb+srv://AdminProjIsaac:Pass1234@projisaacv1.mvtrtak.mongodb.net/?retryWrites=true&w=majority",
+        "mongodb+srv://userDatabaseAccess:Pass1234@projisaacv1.mvtrtak.mongodb.net/isaac?retryWrites=true&w=majority",
       {
         //   these are options to ensure that the connection is done properly
         useNewUrlParser: true,
