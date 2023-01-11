@@ -7,6 +7,19 @@ const UserSchema = new mongoose.Schema({
     required: [true, "Please provide an Email!"],
     unique: [true, "Email Exist"],
   },
+  
+  // name field
+  name: {
+    type: String,
+    required: [true, "Please provide a Name!"],
+  },
+
+  // lastname field
+  lastname: {
+    type: String,
+    required: [true, "Please provide a Name!"],
+  },
+  
 
   //   password field
   password: {

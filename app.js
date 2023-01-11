@@ -9,7 +9,7 @@ const dbConnect = require("./db/dbConnect");
 const User = require("./db/userModel");
 const auth = require("./auth");
 var MongoClient = require('mongodb').MongoClient;
-var uri = "mongodb+srv://userDatabaseAccess:Pass1234@projisaacv1.mvtrtak.mongodb.net/isaac?retryWrites=true&w=majority";
+var uri = "mongodb+srv://vrumUser:Pass1234@vrum.kamzhos.mongodb.net/?retryWrites=true&w=majority";
 
 // execute database connection
 dbConnect();
@@ -46,52 +46,11 @@ app.get("/user/:email", (request, response, next) => {
   })
 });
 
-app.get("/convenio/?municipio=:municipio&orgao=:orgao&cnpj=:cnpj", async(request, response, next) => {
-  
-  let reqParams = request.params
-  var query = {$and: [{ CodigoConvenente: parseInt(reqParams.cnpj) }, {CodigoSiafiMunicipio : parseInt(reqParams.municipio)}, {CondigoOrgaoConcedente: parseInt(reqParams.orgao)}]};
-  var data = []  
-  MongoClient.connect(uri, async function(err, client) {
-    if(err){
-      console.log(err);      
-      next();
-    }
-    var collection = client.db("isaac").collection("convenios").find(query);
-    var documentArray = await collection.toArray();
-    data = documentArray;
-    response.json({ data: data });
-    client.close();
-    next();  
-  });
-});
-
-app.get("/programa/?anodisponibilizacao=:ano&situacao=:situacao&codorgao=:codorgao&id=:id&uf=:uf&qualificacaoProponente=:qualificacaoProponente", async(request, response, next) => {
-  
-  let reqParams = request.params
-  console.log('this')
-  var query = {$and: [{ AnoDisponibilizacao: parseInt(reqParams.ano) || 0 }, 
-                      { SitPrograma: reqParams.situacao }, 
-                      {UfPrograma: reqParams.uf}]};
-  var data = []
-  console.log(query)
-  MongoClient.connect(uri, async function(err, client) {
-    if(err){
-      console.log(err);      
-      next();
-    }
-    var collection = client.db("isaac").collection("programas").find(query);
-    var documentArray = await collection.toArray();
-    data = documentArray;
-    console.log('this')
-    response.json({ data: data });
-    next(); 
-    client.close();     
-  });
-});
 
 
 app.get("/arara", (request, response, next) => {
-  response.json({ message: "segunda mudança na string connection!" });
+  response.json({ message: "terceira mudança na string connection!" });
+  console.log('pingou aqui')
   next();
 });
 
