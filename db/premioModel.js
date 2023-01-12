@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 // user schema
-const SorteioSchema = new mongoose.Schema({
+const PremioSchema = new mongoose.Schema({
     
     
     Descricao: {
@@ -17,4 +17,4 @@ const SorteioSchema = new mongoose.Schema({
 });
 
 // export programaSchema
-module.exports = mongoose.model.Sorteios || mongoose.model("Sorteios", SorteioSchema);
+module.exports = mongoose.model.Premios || mongoose.model("Premios", PremioSchema);

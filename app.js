@@ -7,10 +7,11 @@ const jwt = require("jsonwebtoken");
 // require database connection
 const dbConnect = require("./db/dbConnect");
 const User = require("./db/userModel");
+const Ticket = require("./db/ticketModel");
 const auth = require("./auth");
 var MongoClient = require('mongodb').MongoClient;
 var uri = "mongodb+srv://vrumUser:Pass1234@vrum.kamzhos.mongodb.net/?retryWrites=true&w=majority";
-
+var ObjectId = require('mongodb').ObjectID;
 // execute database connection
 dbConnect();
 
@@ -46,6 +47,20 @@ app.get("/user/:email", (request, response, next) => {
   })
 });
 
+app.get("/ticket/:id", (request, response, next) => {
+  Ticket.findOne({ _id: request.params.id }).then((ticket) =>{
+      response.json({data: ticket});
+      next();
+    }
+  ).catch((e) => {
+    console.log(e)
+    response.status(400).send({
+      message: "Ticket not found, check spelling",
+      error: e
+    });
+  })
+});
+
 
 
 app.get("/arara", (request, response, next) => {
@@ -57,6 +72,7 @@ app.get("/arara", (request, response, next) => {
 
 // register endpoint
 app.post("/register", (request, response) => {
+  console.log('ok');
   // hash the password
   bcrypt
     .hash(request.body.password, 10)
@@ -65,6 +81,9 @@ app.post("/register", (request, response) => {
       const user = new User({
         email: request.body.email,
         password: hashedPassword,
+        name: request.body.name,
+        lastname: request.body.lastname,
+        cpf: request.body.cpf
       });
 
       // save the new user
@@ -93,6 +112,32 @@ app.post("/register", (request, response) => {
         e,
       });
     });
+});
+
+// register ticket
+app.post("/ticket", (request, response) => {
+  const ticket = new Ticket({
+    descricao: request.body.descricao || "-",
+    IdSorteio: request.body.IdSorteio,
+    IdSorteado: request.body.IdSorteado
+  });
+  ticket
+        .save()
+        // return success if the new user is added to the database successfully
+        .then((result) => {
+          response.status(201).send({
+            message: "Ticket Created Successfully",
+            result: result.descricao,
+          });
+        })
+        // catch erroe if the new user wasn't added successfully to the database
+        .catch((error) => {
+          console.log(error)
+          response.status(500).send({
+            message: "Error creating ticket",
+            error,
+          });
+        });
 });
 
 // login endpoint
@@ -156,6 +201,43 @@ app.get("/free-endpoint", (request, response) => {
   response.json({ message: "You are free to access me anytime" });
 });
 
+
+app.get("/userbyid/:idUser", (request, response) => {
+  var query = { IdSorteado: request.params.idUser.trim()};
+  var data = [] 
+  MongoClient.connect(uri, async function(err, client) {
+    if(err){
+      console.log(err);      
+      next();
+    }
+    var collection = client.db("isaac").collection("convenios").find(query);
+    var documentArray = await collection.toArray();
+    data = documentArray;
+  });
+  User.findById(request.params.idUser.trim())
+  .then((user) => {
+
+    // check if password matches
+    if(!user) {
+      return response.status(400).send({
+        message: "User not found",
+        error,
+      });
+    }else{
+      return response.status(201).send({
+        user: user,
+        tickets: data
+      });
+    }
+    
+  })
+  .catch((error) => {
+    return response.status(400).send({
+      message: "User not found",
+      error,
+    });
+  });
+});
 // authentication endpoint
 app.get("/auth-endpoint", auth, (request, response) => {
   response.send({ message: "Meu nome eh arara" });
