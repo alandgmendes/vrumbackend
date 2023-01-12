@@ -11,15 +11,20 @@ const UserSchema = new mongoose.Schema({
   // name field
   name: {
     type: String,
-    required: [true, "Please provide a Name!"],
+    required: [true, "Please provide a name!"],
   },
 
   // lastname field
   lastname: {
     type: String,
-    required: [true, "Please provide a Name!"],
+    required: [true, "Please provide a lastame!"],
   },
   
+   // lastname field
+   cpf: {
+    type: String,
+    required: [true, "Please provide a cpf!"],
+  },
 
   //   password field
   password: {
