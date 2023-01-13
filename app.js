@@ -34,7 +34,7 @@ app.use((req, res, next) => {
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.get("/user/:email", auth, (request, response, next) => {
+app.get("/user/:email", (request, response, next) => {
   User.findOne({ email: request.params.email }).then((user) =>{
       response.json({id: `${user.email}`});
       next();
@@ -48,7 +48,7 @@ app.get("/user/:email", auth, (request, response, next) => {
   })
 });
 
-app.get("/ticket/:id", auth, (request, response, next) => {
+app.get("/ticket/:id",  (request, response, next) => {
   Ticket.findOne({ _id: request.params.id }).then((ticket) =>{
       response.json({data: ticket});
       next();
@@ -72,7 +72,7 @@ app.get("/arara", (request, response, next) => {
 
 
 // register endpoint
-app.post("/register", auth, (request, response) => {
+app.post("/register", (request, response) => {
   console.log('ok');
   // hash the password
   bcrypt
@@ -116,11 +116,11 @@ app.post("/register", auth, (request, response) => {
 });
 
 // register ticket
-app.post("/ticket", auth, (request, response) => {
+app.post("/ticket", (request, response) => {
   const ticket = new Ticket({
     Descricao: request.body.descricao || "-",
-    IdSorteio: request.body.IdSorteio,
-    IdSorteado: request.body.IdSorteado,
+    IdSorteio: request.body.idSorteio,
+    IdSorteado: request.body.idSorteado,
     Status: "Aguardando"
   });
   ticket
@@ -241,7 +241,7 @@ app.get("/userbyid/:idUser", auth, (request, response) => {
   });
 });
 // authentication endpoint
-app.get("/auth-endpoint", auth, (request, response) => {
+app.get("/auth-endpoint", (request, response) => {
   response.send({ message: "Meu nome eh arara" });
 });
 
