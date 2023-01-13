@@ -13,6 +13,7 @@ var MongoClient = require('mongodb').MongoClient;
 var uri = "mongodb+srv://vrumUser:Pass1234@vrum.kamzhos.mongodb.net/?retryWrites=true&w=majority";
 var ObjectId = require('mongodb').ObjectID;
 // execute database connection
+
 dbConnect();
 
 // Curb Cores Error by adding a header here
