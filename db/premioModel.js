@@ -11,9 +11,10 @@ const PremioSchema = new mongoose.Schema({
     Imagem: {
         type: String,
     },
-    Valor: {
+    
+    Titulo: {
         type: String,
-    },
+    }
 });
 
 // export programaSchema

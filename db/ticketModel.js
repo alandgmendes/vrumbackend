@@ -12,13 +12,14 @@ const TicketSchema = new mongoose.Schema({
         type: String,
     },
 
-    IdSorteado: {
+    Status:{
+        type: String,
+    },
+    IdSorteado:{
         type: String,
     }
-    
-    
-   
-    });
+
+});
 
 // export programaSchema
 module.exports = mongoose.model.Tickets || mongoose.model("Tickets", TicketSchema);

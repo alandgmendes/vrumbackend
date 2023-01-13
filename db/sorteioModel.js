@@ -11,6 +11,10 @@ const SorteioSchema = new mongoose.Schema({
     IdPremio: {
         type: String,
     },
+    
+    DataSorteio: {
+        type: String,
+    },
 });
 
 // export programaSchema
