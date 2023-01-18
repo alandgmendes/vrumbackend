@@ -1,19 +1,23 @@
-const express = require("express");
+import express from 'express';
 const app = express();
-const bodyParser = require("body-parser");
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
+import bodyParser from "body-parser";
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+import axios from "axios";
 
-// require database connection
-const dbConnect = require("./db/dbConnect");
-const User = require("./db/userModel");
-const Ticket = require("./db/ticketModel");
-const auth = require("./auth");
-var MongoClient = require('mongodb').MongoClient;
-var uri = "mongodb+srv://vrumUser:Pass1234@vrum.kamzhos.mongodb.net/?retryWrites=true&w=majority";
-var ObjectId = require('mongodb').ObjectID;
+import dbConnect from "./db/dbConnect.js";
+import  User  from "./db/UserModel.js";
+//import Ticket from './db/TicketModel.js';
+import auth from "./auth.js";
+import { getPayment, createOrder,	callback, } from "./src/controllers/Payment.js";
+import { default as mongodb } from 'mongodb';
+let MongoClient = mongodb.MongoClient;
+var uri = process.env.DATABASE_URL;
+let ObjectId = mongodb.ObjectID;
 // execute database connection
+
 dbConnect();
+
 
 // Curb Cores Error by adding a header here
 app.use((req, res, next) => {
@@ -47,7 +51,7 @@ app.get("/user/:email", (request, response, next) => {
   })
 });
 
-app.get("/ticket/:id", (request, response, next) => {
+app.get("/ticket/:id",  (request, response, next) => {
   Ticket.findOne({ _id: request.params.id }).then((ticket) =>{
       response.json({data: ticket});
       next();
@@ -65,8 +69,19 @@ app.get("/ticket/:id", (request, response, next) => {
 
 app.get("/arara", (request, response, next) => {
   response.json({ message: "terceira mudança na string connection!" });
-  console.log('pingou aqui')
+  console.log('pingou aqui');
   next();
+});
+
+app.post("/buy", async(request, response, next) =>{
+  console.log('ok');
+  const publicKey ="APP_USR-9f550f39-c9ff-417c-aa4a-f45c1e305e6f";
+  axios.get('https://dog.ceo/api/breeds/list/all').then(result => {
+    console.log(result.data.message)
+  });
+  
+
+  response.sendStatus(200);
 });
 
 
@@ -117,9 +132,10 @@ app.post("/register", (request, response) => {
 // register ticket
 app.post("/ticket", (request, response) => {
   const ticket = new Ticket({
-    descricao: request.body.descricao || "-",
-    IdSorteio: request.body.IdSorteio,
-    IdSorteado: request.body.IdSorteado
+    Descricao: request.body.descricao || "-",
+    IdSorteio: request.body.idSorteio,
+    IdSorteado: request.body.idSorteado,
+    Status: "Aguardando"
   });
   ticket
         .save()
@@ -138,6 +154,7 @@ app.post("/ticket", (request, response) => {
             error,
           });
         });
+        next();
 });
 
 // login endpoint
@@ -194,15 +211,17 @@ app.post("/login", (request, response) => {
         e,
       });
     });
+    
 });
 
 // free endpoint
 app.get("/free-endpoint", (request, response) => {
   response.json({ message: "You are free to access me anytime" });
+  next();
 });
 
 
-app.get("/userbyid/:idUser", (request, response) => {
+app.get("/userbyid/:idUser", auth, (request, response) => {
   var query = { IdSorteado: request.params.idUser.trim()};
   var data = [] 
   MongoClient.connect(uri, async function(err, client) {
@@ -239,8 +258,12 @@ app.get("/userbyid/:idUser", (request, response) => {
   });
 });
 // authentication endpoint
-app.get("/auth-endpoint", auth, (request, response) => {
+app.get("/auth-endpoint", (request, response) => {
   response.send({ message: "Meu nome eh arara" });
 });
 
-module.exports = app;
+app.post("/api/payment/create", createOrder);
+app.post("/api/payment", getPayment);
+app.post("/api/callback", callback);
+
+export default app;

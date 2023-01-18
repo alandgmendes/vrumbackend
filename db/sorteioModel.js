@@ -1,6 +1,6 @@
-const mongoose = require("mongoose");
+import mongoose from 'mongoose';
+const { Schema } = mongoose;
 
-// user schema
 const SorteioSchema = new mongoose.Schema({
     
     
@@ -9,6 +9,10 @@ const SorteioSchema = new mongoose.Schema({
     },
 
     IdPremio: {
+        type: String,
+    },
+    
+    DataSorteio: {
         type: String,
     },
 });

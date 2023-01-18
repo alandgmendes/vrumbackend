@@ -1,7 +1,7 @@
-const mongoose = require("mongoose");
-require('dotenv').config()
+import mongoose from "mongoose";
 
-async function dbConnect() {
+
+const dbConnect = () =>{
   // use mongoose to connect this app to our database on mongoDB using the DB_URL (connection string)
   //change line below to hide connection string on production
   mongoose
@@ -23,4 +23,4 @@ async function dbConnect() {
     });
 }
 
-module.exports = dbConnect;
+export default dbConnect;

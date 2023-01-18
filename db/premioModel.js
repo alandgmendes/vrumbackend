@@ -1,6 +1,6 @@
-const mongoose = require("mongoose");
+import mongoose from 'mongoose';
+const { Schema } = mongoose;
 
-// user schema
 const PremioSchema = new mongoose.Schema({
     
     
@@ -11,9 +11,10 @@ const PremioSchema = new mongoose.Schema({
     Imagem: {
         type: String,
     },
-    Valor: {
+    
+    Titulo: {
         type: String,
-    },
+    }
 });
 
 // export programaSchema
