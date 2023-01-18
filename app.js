@@ -12,7 +12,7 @@ import auth from "./auth.js";
 import { getPayment, createOrder,	callback, } from "./src/controllers/Payment.js";
 import { default as mongodb } from 'mongodb';
 let MongoClient = mongodb.MongoClient;
-var uri = "mongodb+srv://vrumUser:Pass1234@vrum.kamzhos.mongodb.net/?retryWrites=true&w=majority";
+var uri = process.env.DATABASE_URL;
 let ObjectId = mongodb.ObjectID;
 // execute database connection
 

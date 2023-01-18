@@ -1,13 +1,24 @@
 import { randomUUID } from "node:crypto";
 import api from "../config/api.js";
-import  UserModel  from "../../db/UserModel.js";
+import  User  from "../../db/UserModel.js";
 import PaymentModel from "../../db/paymentModel.js";
 
 const createOrder = async (req,  res) => {
-	console.log(req);
-	console.log(res);
-
-	const user = await UserModel.findById(req.body.user_id)
+	console.log('ok')
+	
+	const user = "";
+	MongoClient.connect(uri, async function(err, client) {
+		if(err){
+		  console.log(err);      
+		  next();
+		}
+		var collection = client.db("isaac").collection("convenios").find(query);
+		var documentArray = await collection.toArray();
+		data = documentArray;
+	  });
+	  User.findById(request.params.idUser.trim())
+	  .then((userFound) => {user = userFound});
+	
 
 	if (!user) {
 		return res.json({ error: 'Usuário não encontrado!' })
