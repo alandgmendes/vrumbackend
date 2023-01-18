@@ -1,7 +1,7 @@
-const mongoose = require("mongoose");
+import  Schema from 'mongoose';
 
-// user schema
-const TicketSchema = new mongoose.Schema({
+
+const TicketSchema = new Schema({
     
     
     Descricao: {
@@ -22,4 +22,4 @@ const TicketSchema = new mongoose.Schema({
 });
 
 // export programaSchema
-module.exports = mongoose.model.Tickets || mongoose.model("Tickets", TicketSchema);
+export const TicketModel = model('Ticket', TicketSchema);

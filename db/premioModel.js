@@ -1,6 +1,6 @@
-const mongoose = require("mongoose");
+import mongoose from 'mongoose';
+const { Schema } = mongoose;
 
-// user schema
 const PremioSchema = new mongoose.Schema({
     
     
