@@ -158,9 +158,9 @@ app.post("/ticket", (request, response) => {
 });
 
 // login endpoint
-app.post("/login", (request, response) => {
+app.post("/login", async(request, response) => {
   // check if email exists
-  User.findOne({ email: request.body.email })
+  await User.findOne({ email: request.body.email })
   
     // if email exists
     .then((user) => {
