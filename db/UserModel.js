@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 const { Schema } = mongoose;
 
-const UserSchema = new Schema({
+export default UserSchema = new Schema({
   // email field
   email: {
     type: String,
@@ -38,4 +38,4 @@ const UserSchema = new Schema({
 // export UserSchema
 //const User = ("User", UserSchema);
 //export default User;
-module.exports = mongoose.model('User', UserSchema);
+//module.exports = mongoose.model('User', UserSchema);
