@@ -4,6 +4,7 @@ import bodyParser from "body-parser";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import axios from "axios";
+import cors from 'cors';
 
 import dbConnect from "./db/dbConnect.js";
 import  User  from "./db/UserModel.js";
@@ -37,7 +38,7 @@ app.use((req, res, next) => {
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.get("/user/:email", async(request, response, next) => {
+app.get("/user/:email",cors(), async(request, response, next) => {
   await User.findOne({ email: request.params.email }).then((user) =>{
       response.json({id: `${user.email}`});
       next();
@@ -51,7 +52,7 @@ app.get("/user/:email", async(request, response, next) => {
   })
 });
 
-app.get("/ticket/:id",  (request, response, next) => {
+app.get("/ticket/:id", cors(),  (request, response, next) => {
   Ticket.findOne({ _id: request.params.id }).then((ticket) =>{
       response.json({data: ticket});
       next();
@@ -67,13 +68,13 @@ app.get("/ticket/:id",  (request, response, next) => {
 
 
 
-app.get("/arara", (request, response, next) => {
+app.get("/arara", cors(), (request, response, next) => {
   response.json({ message: "terceira mudança na string connection!" });
   console.log('pingou aqui');
   next();
 });
 
-app.post("/buy", async(request, response, next) =>{
+app.post("/buy", cors(), async(request, response, next) =>{
   console.log('ok');
   const publicKey ="APP_USR-9f550f39-c9ff-417c-aa4a-f45c1e305e6f";
   axios.get('https://dog.ceo/api/breeds/list/all').then(result => {
@@ -86,7 +87,7 @@ app.post("/buy", async(request, response, next) =>{
 
 
 // register endpoint
-app.post("/register", (request, response) => {
+app.post("/register",cors(), (request, response) => {
   console.log('ok');
   // hash the password
   bcrypt
@@ -130,7 +131,7 @@ app.post("/register", (request, response) => {
 });
 
 // register ticket
-app.post("/ticket", (request, response) => {
+app.post("/ticket", cors(), (request, response) => {
   const ticket = new Ticket({
     Descricao: request.body.descricao || "-",
     IdSorteio: request.body.idSorteio,
@@ -158,7 +159,7 @@ app.post("/ticket", (request, response) => {
 });
 
 // login endpoint
-app.post("/login", async(request, response) => {
+app.post("/login", cors(), async(request, response) => {
   // check if email exists
   await User.findOne({ email: request.body.email })
   
@@ -215,13 +216,13 @@ app.post("/login", async(request, response) => {
 });
 
 // free endpoint
-app.get("/free-endpoint", (request, response) => {
+app.get("/free-endpoint", cors(), (request, response) => {
   response.json({ message: "You are free to access me anytime" });
   next();
 });
 
 
-app.get("/userbyid/:idUser", auth, (request, response) => {
+app.get("/userbyid/:idUser", cors(), auth, (request, response) => {
   var query = { IdSorteado: request.params.idUser.trim()};
   var data = [] 
   MongoClient.connect(uri, async function(err, client) {
@@ -258,12 +259,12 @@ app.get("/userbyid/:idUser", auth, (request, response) => {
   });
 });
 // authentication endpoint
-app.get("/auth-endpoint", (request, response) => {
+app.get("/auth-endpoint",cors(),  (request, response) => {
   response.send({ message: "Meu nome eh arara" });
 });
 
-app.post("/api/payment/create", createOrder);
-app.post("/api/payment", getPayment);
-app.post("/api/callback", callback);
+app.post("/api/payment/create",cors(),  createOrder);
+app.post("/api/payment", cors(), getPayment);
+app.post("/api/callback", cors(), callback);
 
 export default app;
