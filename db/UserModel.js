@@ -1,8 +1,7 @@
 import mongoose from 'mongoose';
-import { User } from 'realm';
 const { Schema } = mongoose;
 
-export default User= new Schema({
+const UserSchema = new Schema({
   // email field
   email: {
     type: String,
@@ -37,6 +36,5 @@ export default User= new Schema({
 });
 
 // export UserSchema
-//const User = ("User", UserSchema);
-//export default User;
-//module.exports = mongoose.model('User', UserSchema);
+const User = ("User", UserSchema);
+export default User;
