@@ -57,6 +57,7 @@ app.get("/user/:email", cors(corsOptions), async(request, response, next) => {
 
 app.get("/ticket/:id", cors(corsOptions),  (request, response, next) => {
   Ticket.findOne({ _id: request.params.id }).then((ticket) =>{
+    console.log(ticket)
       response.json({data: ticket});
       next();
     }
@@ -126,6 +127,7 @@ app.post("/register", cors(corsOptions), (request, response) => {
     })
     // catch error if the password hash isn't successful
     .catch((e) => {
+      console.log(e);
       response.status(500).send({
         message: "Password was not hashed successfully",
         e,
