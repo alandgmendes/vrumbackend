@@ -36,5 +36,5 @@ const UserSchema = new Schema({
 });
 
 // export UserSchema
-const User = ("User", UserSchema);
-export { User };
+const  User = ("User", UserSchema);
+export default User;

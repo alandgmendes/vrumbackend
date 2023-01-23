@@ -7,7 +7,7 @@ import axios from "axios";
 import cors from 'cors';
 
 import dbConnect from "./db/dbConnect.js";
-import  { User } from "./db/UserModel.js";
+import  User from "./db/UserModel.js";
 //import Ticket from './db/TicketModel.js';
 import auth from "./auth.js";
 import { getPayment, createOrder,	callback, } from "./src/controllers/Payment.js";
