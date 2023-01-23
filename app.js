@@ -19,7 +19,10 @@ let ObjectId = mongodb.ObjectID;
 
 dbConnect();
 
-
+var corsOptions = {
+  origin: 'https://www.premiamosvoce.store/',
+  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+}
 // Curb Cores Error by adding a header here
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -38,7 +41,7 @@ app.use((req, res, next) => {
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.get("/user/:email",cors(), async(request, response, next) => {
+app.get("/user/:email", cors(corsOptions), async(request, response, next) => {
   await User.findOne({ email: request.params.email }).then((user) =>{
       response.json({id: `${user.email}`});
       next();
@@ -52,7 +55,7 @@ app.get("/user/:email",cors(), async(request, response, next) => {
   })
 });
 
-app.get("/ticket/:id", cors(),  (request, response, next) => {
+app.get("/ticket/:id", cors(corsOptions),  (request, response, next) => {
   Ticket.findOne({ _id: request.params.id }).then((ticket) =>{
       response.json({data: ticket});
       next();
@@ -68,13 +71,13 @@ app.get("/ticket/:id", cors(),  (request, response, next) => {
 
 
 
-app.get("/arara", cors(), (request, response, next) => {
+app.get("/arara", cors(corsOptions), (request, response, next) => {
   response.json({ message: "terceira mudança na string connection!" });
   console.log('pingou aqui');
   next();
 });
 
-app.post("/buy", cors(), async(request, response, next) =>{
+app.post("/buy", cors(corsOptions), async(request, response, next) =>{
   console.log('ok');
   const publicKey ="APP_USR-9f550f39-c9ff-417c-aa4a-f45c1e305e6f";
   axios.get('https://dog.ceo/api/breeds/list/all').then(result => {
@@ -87,7 +90,7 @@ app.post("/buy", cors(), async(request, response, next) =>{
 
 
 // register endpoint
-app.post("/register",cors(), (request, response) => {
+app.post("/register", cors(corsOptions), (request, response) => {
   console.log('ok');
   // hash the password
   bcrypt
@@ -131,7 +134,7 @@ app.post("/register",cors(), (request, response) => {
 });
 
 // register ticket
-app.post("/ticket", cors(), (request, response) => {
+app.post("/ticket", cors(corsOptions), (request, response) => {
   const ticket = new Ticket({
     Descricao: request.body.descricao || "-",
     IdSorteio: request.body.idSorteio,
@@ -159,7 +162,7 @@ app.post("/ticket", cors(), (request, response) => {
 });
 
 // login endpoint
-app.post("/login", cors(), async(request, response) => {
+app.post("/login", cors(corsOptions), async(request, response) => {
   // check if email exists
   await User.findOne({ email: request.body.email })
   
@@ -216,13 +219,13 @@ app.post("/login", cors(), async(request, response) => {
 });
 
 // free endpoint
-app.get("/free-endpoint", cors(), (request, response) => {
+app.get("/free-endpoint", cors(corsOptions), (request, response) => {
   response.json({ message: "You are free to access me anytime" });
   next();
 });
 
 
-app.get("/userbyid/:idUser", cors(), auth, (request, response) => {
+app.get("/userbyid/:idUser", cors(corsOptions), auth, (request, response) => {
   var query = { IdSorteado: request.params.idUser.trim()};
   var data = [] 
   MongoClient.connect(uri, async function(err, client) {
@@ -259,12 +262,12 @@ app.get("/userbyid/:idUser", cors(), auth, (request, response) => {
   });
 });
 // authentication endpoint
-app.get("/auth-endpoint",cors(),  (request, response) => {
+app.get("/auth-endpoint", cors(corsOptions),  (request, response) => {
   response.send({ message: "Meu nome eh arara" });
 });
 
-app.post("/api/payment/create",cors(),  createOrder);
-app.post("/api/payment", cors(), getPayment);
-app.post("/api/callback", cors(), callback);
+app.post("/api/payment/create", cors(corsOptions), createOrder);
+app.post("/api/payment", cors(corsOptions), getPayment);
+app.post("/api/callback", cors(corsOptions), callback);
 
 export default app;
