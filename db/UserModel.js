@@ -1,7 +1,8 @@
 import mongoose from 'mongoose';
+import { User } from 'realm';
 const { Schema } = mongoose;
 
-export default UserSchema = new Schema({
+export default User= new Schema({
   // email field
   email: {
     type: String,
